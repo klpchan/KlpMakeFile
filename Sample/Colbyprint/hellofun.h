@@ -1,4 +1,4 @@
 //Header file
-#define MAGIC_NUM 100
+#define MAGIC_NUM 200
 
 void printHelloMake();

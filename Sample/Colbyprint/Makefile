@@ -3,7 +3,9 @@ CFLAGS=-I.
 
 INCDEP=hellofun.h
 
-%.o:%.c $(INCDEP)
+##INCDEP request rebuild with Header file change.
+
+%.o:%.c $(INCDEP) 
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 helloMake:hellomake.o hellofun.o
