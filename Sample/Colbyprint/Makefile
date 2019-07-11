@@ -1,21 +1,20 @@
-CC=gcc
-CFLAGS=-I.
-
 TARGET=helloMake
 TARGET_TEST=test
-
 
 HOME=.
 SRCD=$(HOME)/src/
 INCD=$(HOME)/inc/
 OBJD=$(HOME)/obj/
 
-
-CFLAGS += -I$(INCD)
+CC=gcc
+CFLAGS=-I. -I$(INCD)
 $(info "+++++++starting Make++++++++")
 
 #INCDEP=hellofun.h
 ##INCDEP request rebuild with Header file change.
+
+.PHONY : all
+all : $(TARGET)
 
 #################Test Start#################
 LOCAL_SRC_FILES_TEST := \
@@ -23,30 +22,35 @@ LOCAL_SRC_FILES_TEST := \
 	$(SRCD)main.c \
 	$(SRCD)dearfun.c \
 
-LOCAL_OBJ_FILES_TEST := $(patsubst %.c,%.o,$(notdir $(LOCAL_SRC_FILES_TEST)))
-$(info "LOCAL_OBJ_FILES_TEST is $(LOCAL_OBJ_FILES_TEST)")
+LOCAL_OBJ_FILES_TEST := $(patsubst %.c,$(OBJD)%.o,$(notdir $(LOCAL_SRC_FILES_TEST)))
+#$(info "LOCAL_OBJ_FILES_TEST is $(LOCAL_OBJ_FILES_TEST)")
 
-$(OBJD)%.o : $(SRCD)%.c
+#1 common mode
+#$(OBJD)%.o : $(SRCD)%.c
+#	@echo buiding : $^
+#	$(CC) $(CFLAGS) -c -o $@ $<
+
+#2 static mode
+$(LOCAL_OBJ_FILES_TEST) : $(OBJD)%.o : $(SRCD)%.c
 	@echo buiding : $^
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(TARGET_TEST): $(patsubst %.c,$(OBJD)%.o,$(notdir $(LOCAL_SRC_FILES_TEST)))
-	@echo linking : $^
+$(TARGET_TEST): $(LOCAL_OBJ_FILES_TEST)
+	@echo "linking : $^ to $@"
 	$(CC) $(CFLAGS) -o $@ $^ 
-#################Test End#################
+#################Test End###################
 
 
-LOCAL_SRC_FILES := $(wildcard *.c)
+#################Target Start#################
+
+LOCAL_SRC_FILES := $(wildcard *.c $(SRCD)*.c)
 LOCAL_OBJ_FILES := $(patsubst %.c,%.o,$(LOCAL_SRC_FILES))
 
-#%.o:%.c
-#	@echo building : $^
-#	$(CC) $(CFLAGS) -c $< -o $@ 
-#
 $(TARGET): $(LOCAL_OBJ_FILES)
-	@echo linking : $^
+	@echo "linking : $^ to $@"
 	$(CC) $(CFLAGS) -o $@ $(LOCAL_OBJ_FILES)
 
+#################Target End#################
 RM=rm -rf
 
 .PHONY : clean
