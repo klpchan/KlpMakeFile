@@ -1,6 +1,6 @@
 #include <hellofun.h>
 
 int main(){
-    printHelloMake();
+    printHello();
     return 0;
 }

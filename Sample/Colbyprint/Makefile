@@ -1,12 +1,25 @@
 CC=gcc
 CFLAGS=-I.
 
-INCDEP=hellofun.h
+TARGET=helloMake
+
+
+$(info "+++++++starting Make++++++++")
+
+#INCDEP=hellofun.h
 
 ##INCDEP request rebuild with Header file change.
 
-%.o:%.c $(INCDEP) 
-	$(CC) -c -o $@ $< $(CFLAGS)
+%.o:%.c
+	@echo building : $^
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
-helloMake:hellomake.o hellofun.o
-	$(CC) -o helloMake hellomake.o hellofun.o $(CFLAGS)
+$(TARGET): main.o hellofun.o
+	@echo linking : $^
+	$(CC) $(CFLAGS) -o $@ main.o hellofun.o
+
+
+.PHONY : clean
+clean : 
+	rm -rf ./$(TARGET)
+	find . -name "*.o" | xargs rm -rf

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <hellofun.h>
 
-void printHelloMake(){
-    printf("Hello MAKE! %d\n",MAGIC_NUM);
+void printHello(){
+    printf("Hello MAGIC NUM is %d\n",MAGIC_NUM);
     return;
 }
