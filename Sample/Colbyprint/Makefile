@@ -44,7 +44,7 @@ $(TARGET_TEST): $(LOCAL_OBJ_FILES_TEST)
 #################Target Start#################
 
 LOCAL_SRC_FILES := $(wildcard *.c $(SRCD)*.c)
-LOCAL_OBJ_FILES := $(patsubst %.c,%.o,$(LOCAL_SRC_FILES))
+LOCAL_OBJ_FILES := $(patsubst %.c,$(OBJD)%.o,$(notdir $(LOCAL_SRC_FILES)))
 
 $(TARGET): $(LOCAL_OBJ_FILES)
 	@echo "linking : $^ to $@"
@@ -54,7 +54,7 @@ $(TARGET): $(LOCAL_OBJ_FILES)
 RM=rm -rf
 
 .PHONY : clean
-clean : 
+clean :
 	$(RM) $(TARGET)
 	$(RM) $(TARGET_TEST)
 	find . -name "*.o" | xargs rm -rf
