@@ -13,6 +13,9 @@ $(info "+++++++starting Make++++++++")
 #INCDEP=hellofun.h
 ##INCDEP request rebuild with Header file change.
 
+FOO=3
+FOO:=$(FOO)
+
 .PHONY : all
 all : $(TARGET)
 
@@ -33,6 +36,7 @@ LOCAL_OBJ_FILES_TEST := $(patsubst %.c,$(OBJD)%.o,$(notdir $(LOCAL_SRC_FILES_TES
 #2 static mode
 $(LOCAL_OBJ_FILES_TEST) : $(OBJD)%.o : $(SRCD)%.c
 	@echo buiding : $^
+	$(info FOO is $(FOO) )
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(TARGET_TEST): $(LOCAL_OBJ_FILES_TEST)
